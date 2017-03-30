@@ -1,0 +1,129 @@
+<html>
+<head>
+    <title>JustBooksCLC</title>
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/sidebar.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/jquery-ui.css">
+    <link rel="stylesheet" href="../assets/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../assets/css/buttons.dataTables.min.css">
+    <style type="text/css">
+        .dataTables_scrollBody {
+            margin-top: -40px;
+        }
+
+        .DTFC_LeftBodyWrapper {
+            top: -19px !important;
+            height: 392px !important;
+        }
+        /*.dt-buttons{*/
+            /*margin-left: 17%;*/
+            /*margin-top: -4%;*/
+        /*}*/
+        /*div#dormancy_DR_filter{*/
+            /*float: right;*/
+            /*margin-top: -3%;*/
+        /*}*/
+        /*li.litag{*/
+            /*padding-left: 8%;*/
+            /*padding-right: 8%;*/
+            /*background-color: antiquewhite;*/
+            /*border: thin solid grey;*/
+        /*}*/
+
+    </style>
+</head>
+<body>
+{{> branch_sideBar }}
+<div class="container">
+    <div id="wrapper">
+
+
+        <div class="col-md-10 col-lg-10 col-sm-12 col-xs-12" style="padding-top:12px;padding-bottom:2px;background-color: white;float: none; margin-left: auto;margin-right: auto;">
+            <table class="table table-striped table-responsive table-bordered" style="margin-top: 5px">
+                <thead style="background-color: #1ABB9C;color: white;">
+                <th class="table_head"   id="one"><a href="javascript:void(0)" onclick="drClick(-1)"><b>DR1</b></a></th>
+                <th class="table_head" id="two"><a href="javascript:void(0)" onclick="drClick(-2)" ><b>DR2</b></a></th>
+                <th class="table_head" id="three"><a href="javascript:void(0)" onclick="drClick(-3)" ><b>DR3</b></a></th>
+                </thead>
+                <tbody style="color: #73879C;">
+                <tr style="background-color: white !important;text-align: center">
+                    <td>{{dr1}}</td>
+                    <td>{{dr2}}</td>
+                    <td>{{dr3}}</td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr />
+        <h3 id="tag" style="text-align: center">DR1 Data</h3>
+        <br>
+
+        <div class="col-md-10 col-lg-10 col-sm-12 col-xs-12" style="padding-top:12px;float: none; margin-left: auto;margin-right: auto;background-color: white">
+            <table class="table table-striped table-responsive table-bordered" style="margin-top: 20px;font-size: 13px;" id="dormancy_DR">
+                <thead style="background-color: #1ABB9C;color: white;">
+                <th class="text-center">Name</th>
+                <th class="text-center">Expiry Date</th>
+                <th class="text-center">Locality</th>
+                <th class="text-center">State</th>
+                <th class="text-center">City</th>
+                <th class="text-center">Land Phone</th>
+                <th class="text-center">Mobile Phone</th>
+
+                </thead>
+                <tbody style="color: #73879C;">
+                {{# data}}
+                    <tr>
+                        <td class="text-center" >{{FIRST_NAME}}</td>
+                        <td class="text-center">{{EXPIRY_DATE}}</td>
+                        <td class="text-center">{{LOCALITY}}</td>
+                        <td class="text-center">{{STATE}}</td>
+                        <td class="text-center">{{CITY}}</td>
+                        <td class="text-center">{{LPHONE}}</td>
+                        <td class="text-center">{{MPHONE}}</td>
+
+                    </tr>
+                {{/ data}}
+                </tbody>
+            </table>
+        </div>
+        <!--<ul class="list-inline" style="margin-left: 26%">-->
+            <!--<li class="litag"><a href="javascript:void(0)"><b>DR1</b></a></li>-->
+            <!--<li class="litag"><a href="javascript:void(0)"><b>DR2</b></a></li>-->
+            <!--<li class="litag"><a href="javascript:void(0)"><b>DR3fn_dormancy_branch</b></a></li>-->
+        <!--</ul>-->
+    </div>
+
+</div>
+</body>
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<!--<script src="../assets/js/highchart/highcharts.js"></script>-->
+<!--<script src="../assets/js/highchart/highcharts-3d.js"></script>-->
+<!--<script src="../assets/js/highchart/modules/exporting.js"></script>-->
+<script src="../assets/js/chart_api.js?v=1"></script>
+<script src="../assets/js/branch.js?v=1"></script>
+<script src="../assets/js/jquery.tablesorter.js"></script>
+<script src="../assets/js/jquery.dataTables.min.js"></script>
+<script src="../assets/js/dataTables.bootstrap.min.js"></script>
+<script src="../assets/js/jquery-ui.js"></script>
+<script src="../assets/js/dataTables.fixedCol.js"></script>
+<script src="../assets/js/dataTables.buttons.min.js"></script>
+<script src="../assets/js/buttons.flash.min.js"></script>
+<script src="../assets/js/jszip.min.js"></script>
+<script src="../assets/js/chart_api.js?v=1"></script>
+<script src="../assets/js/pdfmake.min.js"></script>
+<script src="../assets/js/buttons.html5.min.js"></script>
+<script src="../assets/js/buttons.print.min.js"></script>
+<script>
+
+
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    $('li:contains("Dormancy")').addClass('active').addClass('navbar-list');
+</script>
+</html>

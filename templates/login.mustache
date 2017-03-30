@@ -1,0 +1,135 @@
+<html>
+<head>
+    <meta name="google-signin-client_id"
+          content="436438133634-0qvjo41r5nu9rgjhfeo68ejrpgge5dqn.apps.googleusercontent.com">
+    <title>JustBooksCLC</title>
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <style type="text/css">
+        html {
+            height: 100%;
+        }
+        body {
+            background:
+                    -webkit-linear-gradient(rgba(135, 60, 255, 0.4), rgba(135, 60, 255, 0.0) 80%),
+                    -webkit-linear-gradient(-45deg, rgba(120, 155, 255, 0.9) 25%, rgba(255, 160, 65, 0.9) 75%);
+        }
+    </style>
+    <script>
+        function renderButton() {
+            gapi.signin2.render('my-signin2', {
+                'scope': 'profile email',
+                'width': 240,
+                'height': 50,
+                'longtitle': true,
+                'theme': 'dark',
+                'onsuccess': onSuccess,
+                'onfailure': onFailure
+            });
+        }
+
+
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log(profile);
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Iailmage URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+//
+
+
+            $.ajax({
+                type: "POST",
+                url: "/login_validate",
+                data: {'email': profile.getEmail(), 'id': profile.getId()},
+                async: true,
+                dataType: 'json',
+                enctype: 'multipart/form-data',
+                cache: false,
+                success: function (data) {
+                    console.log(data);
+                    if (data == 400 || data == "400") {
+                        alert("User Not Present");
+
+                    }
+
+                    else {
+
+                        window.location = "http://localhost:8083/branch/"
+                    }
+
+
+                },
+                error: function (err) {
+                    console.log(err.responseText);
+                    if (err.responseText == 400 || err.responseText == "400") {
+
+                        alert("User Not Present");
+
+                    }
+
+                    else {
+
+                        window.location = "http://localhost:8083/branch/"
+                    }
+
+
+                    console.log(err.responseText);
+
+                }
+            });
+
+
+        }</script>
+    <script>
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+            });
+        }
+    </script>
+</head>
+
+<body>
+<div class="container login_container">
+    <img src="../assets/images/logo.png" class="img-responsive center-block login_logo">
+    <div class="login_box center-block">
+        <div class="login_box_header">
+            <div class="login_header_font">
+                JustBooks Signin
+            </div>
+            <div class="login_box_body">
+                <div class="form_login">
+                    <form class="form-horizontal" name="login_form" action="/login_validate_normal" method="post">
+                        <div class="form-group login_input">
+                            <input type="text" class="form-control" placeholder="User Name" name="username" autocomplete="off">
+                        </div>
+                        <div class="form-group login_input">
+                            <input type="password" class="form-control" placeholder="Password" name="password">
+                        </div>
+                        <div class="form-group login_input">
+                            <input type="submit" class="form-control btn btn-primary login_btn" name="submit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <br>
+            <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" data-prompt="select_account" style="margin-left: 40%; margin-top: 13%;"></div>
+            <!--<a href="#" onclick="signOut();">Sign out</a>-->
+        </div>
+    </div>
+</div>
+</body>>
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+
+<script type="text/javascript">
+    $(window).load(function () {
+        $('#myModal').modal('show');
+    });
+</script>
+</html>

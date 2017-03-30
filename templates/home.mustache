@@ -1,0 +1,208 @@
+<html>
+<head>
+    <title>JustBooksCLC</title>
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/sidebar.css" rel="stylesheet">
+    <style type="text/css">
+        .dataTables_scrollBody {
+            margin-top: -40px;
+        }
+
+        .DTFC_LeftBodyWrapper {
+            top: -19px !important;
+            height: 392px !important;
+        }
+
+    </style>
+</head>
+<body>
+{{> sidebar }}
+<div class="container">
+    <div id="wrapper">
+
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div id="sticky-anchor"></div>
+                <div id="sticky" style="position: fixed; z-index: 1000;width: 82%;">
+                    <div class="row tile_count" style="margin-top: -97px;">
+                        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12" style="background-color: #EDEDED;">
+
+                            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="padding-top: 17px;">
+                                <img src="../assets/images/circulation.png" class="home_top_img">
+                                <span class="count_top">MTD Collections</span>
+                                <div class="count loader" id="signups"></div>
+                                <span class="count_bottom">Current Month</span>
+                            </div>
+                            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="padding-top: 17px;">
+                                <img src="../assets/images/amount.png" class="home_top_img">
+                                <span class="count_top">Collections Share</span>
+                                <div class="count loader" id="collected" style="font-size: 15px;"></div>
+                                <div class="count" id="collected1" style="font-size: 15px;"></div>
+                                <span class="count_bottom">Current Month</span>
+                            </div>
+                            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="padding-top: 17px;">
+                                <img src="../assets/images/web_branch.png" class="home_top_img">
+                                <span class="count_top">Collection Growth</span>
+                                <div class="count loader" id="web_branch"></div>
+                                <span class="count_bottom">Over last year</span>
+                            </div>
+                            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count"style="padding-top: 17px;">
+                                <img src="../assets/images/signups.png" class="home_top_img">
+                                <span class="count_top">Signup Revenue</span>
+                                <div class="count loader" id="renewals" style="font-size: 17px"></div>
+                                <span class="count_bottom">Current Month</span>
+                            </div>
+                            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="padding-top: 17px;">
+                                <img src="../assets/images/ibtr.png" class="home_top_img">
+                                <span class="count_top">Signup Count</span>
+                                <div class="count loader" id="ibtr" style="font-size: 17px"></div>
+                                <span class="count_bottom">Current Month</span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <br/>
+                    <!--<hr />-->
+                    <div class="row tile_count">
+                        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12" style="background-color: #EDEDED;
+    border-bottom: thick solid salmon;">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="padding-top: 14px;">
+                                <img src="../assets/images/collection.png" class="home_top_img">
+                                <span class="count_top">Renewal Revenue</span>
+                                <div class="count loader" id="circulation" style="font-size: 17px;"></div>
+                                <span class="count_bottom">Current Month</span>
+                            </div>
+                            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="padding-top: 14px;">
+                                <img src="../assets/images/renewals.png" class="home_top_img">
+                                <span class="count_top">Renewal Count</span>
+                                <div class="count loader" id="collection" style="font-size: 17px;"></div>
+                                <span class="count_bottom">Current Month</span>
+                            </div>
+                            <!--<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">-->
+                            <!--<img src="../assets/images/dd.png" class="home_top_img">-->
+                            <!--<span class="count_top">Total DD Request</span>-->
+                            <!--<div class="count loader" id="dd"></div>-->
+                            <!--<span class="count_bottom">Corporate Vs Branches</span>-->
+                            <!--</div>-->
+                            <!--<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">-->
+                            <!--<img src="../assets/images/reviews.png" class="home_top_img">-->
+                            <!--<span class="count_top">OTR</span>-->
+                            <!--<div class="count loader" id="otrcount"></div>-->
+                            <!--<span class="count_bottom">Current Month</span>-->
+                            <!--</div>-->
+
+
+                            <!--<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">-->
+                            <!--<img src="../assets/images/book_added.png" class="home_top_img">-->
+                            <!--<span class="count_top">Books Added</span>-->
+                            <!--<div class="count loader" id="added"></div>-->
+                            <!--<span class="count_bottom">Current Month</span>-->
+                            <!--</div>-->
+                            <!--<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">-->
+                            <!--<img src="../assets/images/amount.png" class="home_top_img">-->
+                            <!--<span class="count_top">Collection Share</span>-->
+                            <!--<div class="count loader" id="collected" style="font-size: 15px;"></div>-->
+                            <!--<div class="count" id="collected1" style="font-size: 15px;"></div>-->
+                            <!--<span class="count_bottom">Current Month</span>-->
+                            <!--</div>-->
+                            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="padding-top: 14px;">
+                                <img src="../assets/images/active.png" class="home_top_img">
+                                <span class="count_top">Active Users</span>
+                                <div class="count loader" id="active_users" style="font-size: 20px;"></div>
+                                <span class="count_bottom">Current Month</span>
+                            </div>
+
+                            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="padding-top: 14px;">
+                                <img src="../assets/images/wishlist.png" class="home_top_img">
+                                <span class="count_top">OTR Achieved</span>
+                                <div class="count loader" id="otrvalue"></div>
+                                <span class="count_bottom">Current Month</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row center_section" style="width: 110%;margin-top: 10%">
+                    <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                        <div id="signups_chart" class="loader1"></div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+                        <div id="renewals_chart" class="loader1"></div>
+                    </div>
+
+
+                </div>
+                <br/><br/>
+                <div class="row center_section" style="width: 110%">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        <div id="amount_date_chart" class="loader2">
+
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/highchart/highcharts.js"></script>
+<script src="../assets/js/highchart/highcharts-3d.js"></script>
+<script src="../assets/js/highchart/modules/exporting.js"></script>
+<script src="../assets/js/chart_api.js?v=1"></script>
+<script src="../assets/js/data_api.js?v=1"></script>
+<script src="../assets/js/jquery.tablesorter.js"></script>
+<script src="../assets/js/jquery.dataTables.min.js"></script>
+<script src="../assets/js/dataTables.bootstrap.min.js"></script>
+<script src="../assets/js/jquery-ui.js"></script>
+<script src="../assets/js/dataTables.fixedCol.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#ibt_data").DataTable({
+            "fixedColumns": {
+                'leftColumns': 1
+            },
+            "paging": false,
+            "searching": false,
+            "showNEntries": false,
+            "bInfo": false,
+            scrollX: true,
+            "aoColumnDefs": [
+                {
+                    'bSortable': false,
+                    'aTargets': [1, 2, 3, 4, 5, 6, 7, 8]
+                }
+
+            ]
+        });
+        $("#dd_data").DataTable({
+            "fixedColumns": {
+                'leftColumns': 1
+            },
+            scrollX: true,
+            "paging": false,
+            "searching": false,
+            "showNEntries": false,
+            "bInfo": false,
+            "aoColumnDefs": [
+                {
+                    'bSortable': false,
+                    'aTargets': [1, 2, 3, 4, 5, 6, 7, 8]
+                }
+
+            ]
+        });
+    });
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    $('li:contains("Dashboard")').addClass('active').addClass('navbar-list');
+</script>
+</html>

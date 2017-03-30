@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Invoice For {{name}}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-sm-8 col-xs-8">
+            <h3 class="myvar">{{data}}</h3>
+            <p> 13th Cross, 16th main, BSK 2nd Stage, Bangalore - 560 070 Landmark: Near BSK 2nd Stage Post Office/Thyagaraja Nagar Police station</p>
+            <span>Phone : 080-65701480, </span> <span>e.mail : billing@justbooksclc.com</span> <span> CIN : U74999KA2016PTC096776</span>
+        </div>
+
+        <div class="col-md-4">
+            <img src="/var/www/html/myslim/public/assets/images/logo1.png">
+        </div>
+
+        <br><br><br><br>
+
+        <div class="col-md-6 col-sm-10 col-xs-10 text-center">
+            <h2>DEBIT NOTE / INVOICE</h2>
+        </div>
+        <br><br><br>
+        <div class="col-md-6 col-sm-8 col-xs-8">
+            <p>To, {{name}}</p>
+                {{# address}}
+                    {{.}}<br>
+                 {{/address}}
+            <!--<p class="col-md-offset-1">410, Ramagondanahalli,<br>-->
+                <!--Varthur Main road,  Near<br>-->
+                <!--bus stand,  Bangalore<br>-->
+                <!--560066.  (next to State<br>-->
+                <!--Bank of India)</p>-->
+
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <p>Date: {{date}}<br>
+                Debit Note No: 18017<br><br>
+                PAN No: AADCJ8009L<br>
+                ST No: AADCJ8009LSD001
+            </p>
+        </div>
+        <div class="col-md-4 col-sm-10 col-xs-10">
+            <p>Branch Name: {{$bid}} - {{name}}d</p>
+            <p>Invoice Raised for the month of February 2017 as per the Franchisee Agreement dt. 01 Aug 2009</p>
+            <p class="col-md-offset-10" style="float: right">*(Amount in INR)</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table">
+                <thead style="background-color: #F99E7B;">
+                <tr>
+                    <th>Sl No.</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>SubTotal</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1)</td>
+                    <td>Hire Charges Collected - Walkins & Web (JBSPL Share)</td>
+                    <td>{{hire_collected}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>2)</td>
+                    <td>Registration Fee (JBSPL Share)</td>
+                    <td>{{reg_fee}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>3)</td>
+                    <td>Security Deposit</td>
+                    <td>{{sec_deposit}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>4)</td>
+                    <td>Lost Book or Damage Fees collected from Members</td>
+                    <td>{{lost_book_}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>5)</td>
+                    <td>Lost/Addnl Card Fees collected from Members</td>
+                    <td>{{lost_card}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>6)</td>
+                    <td>Retention Fee</td>
+                    <td>{{retention}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>7)</td>
+                    <td>Misc Income</td>
+                    <td>{{misc_income}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>8)</td>
+                    <td>CC Charges on Web Transactions</td>
+                    <td>{{cc}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>9)</td>
+                    <td>Door Delivery Fees</td>
+                    <td>0</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>10)</td>
+                    <td>Miscellaneous Cost</td>
+                    <td>-{{misc_cost}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>11)</td>
+                    <td>IBT Payable</td>
+                    <td>{{ibt_pay}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>12)</td>
+                    <td>Magazine Fee(JBSPL Share)</td>
+                    <td>0</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><b>Sub Total (A)</b></td>
+                    <td></td>
+                    <td><b>{{Atotal}}</b></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"><b>Less: (Refunds/Re-imbursment)</b></td>
+
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>1)</td>
+                    <td>High Member Base Incentive</td>
+                    <td>0</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>2)</td>
+                    <td>Security Deposit Refund</td>
+                    <td>{{sec_refund}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>3)</td>
+                    <td>CC Charges (EDC Charges) incurred</td>
+                    <td>{{edc}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>4)</td>
+                    <td>Hire Charges - Web (Franchisee + JBSPL Share)</td>
+                    <td>{{hire_charge}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>5)</td>
+                    <td>Flat Discount</td>
+                    <td>0</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>6)</td>
+                    <td>Adjustments</td>
+                    <td>0</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>7)</td>
+                    <td>IBT Receivable</td>
+                    <td>{{ibt_Rec}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><b>Sub Total (B)</b></td>
+                    <td></td>
+                    <td><b>{{Btotal}}</b></td>
+                </tr>
+                </tbody>
+                <thead style="background-color: #F99E7B;">
+                <tr>
+                    <th></th>
+                    <th><b>Grand Total (A - B)</b></th>
+                    <th></th>
+                    <th><b>{{grandTotal}}</b></th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <h3 class="col-md-offset-10" style="color: orange;" >www.justbooksclc.com</h3>
+    </div>
+</div>
+
+</body>
+</html>

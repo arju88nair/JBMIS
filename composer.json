@@ -1,0 +1,7 @@
+{
+    "require": {
+        "dearon/slim-mustache": "0.1.*",
+        "danjam/slim-mustache-view": "^1.1",
+        "mikehaertl/phpwkhtmltopdf": "^2.2"
+    }
+}
