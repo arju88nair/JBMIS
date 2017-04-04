@@ -1,5 +1,7 @@
 <html>
 <head>
+	<meta name="google-signin-client_id"
+         content="436438133634-0qvjo41r5nu9rgjhfeo68ejrpgge5dqn.apps.googleusercontent.com">
     <title>JustBooksCLC</title>
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/css/style.css" rel="stylesheet">
@@ -40,7 +42,7 @@
     <div class="row center_section col_summary_div" style="margin-top: 31px;">
         <legend>Member Closures {{from}} to {{to}} is {{count}}</legend>
 
-        <div class="row" style="margin-left: 10px;float: none; margin-left: auto;margin-right: auto;">
+        <div class="row" style="margin-left: 10px;float: none; margin-left: 8%;margin-right: auto;">
             <form id="form" action="/closureBranch/" role="form" method="POST" class="form-horizontal">
                 <label for="from">From :&nbsp;&nbsp;</label>
                 <input type="text" id="from" readonly required="required" name="from">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -90,10 +92,6 @@
 </body>
 <script src="../assets/js/jquery.min.js"></script>
 <script src="../assets/js/bootstrap.min.js"></script>
-<!--<script src="../assets/js/highchart/highcharts.js"></script>-->
-<!--<script src="../assets/js/highchart/highcharts-3d.js"></script>-->
-<!--<script src="../assets/js/highchart/modules/exporting.js"></script>-->
-<script src="../assets/js/chart_api.js?v=1"></script>
 <script src="../assets/js/branch.js?v=1"></script>
 <script src="../assets/js/jquery.tablesorter.js"></script>
 <script src="../assets/js/jquery.dataTables.min.js"></script>
@@ -103,13 +101,12 @@
 <script src="../assets/js/dataTables.buttons.min.js"></script>
 <script src="../assets/js/buttons.flash.min.js"></script>
 <script src="../assets/js/jszip.min.js"></script>
-<script src="../assets/js/chart_api.js?v=1"></script>
-<script src="../assets/js/pdfmake.min.js"></script>
 <script src="../assets/js/buttons.html5.min.js"></script>
 <script src="../assets/js/buttons.print.min.js"></script>
 <script>
     $(document).ready(function () {
         var table = $("#closure").DataTable({
+	    destroy: true,
             dom: 'lBfrtip',
             buttons: [
                 'csv', 'excel'

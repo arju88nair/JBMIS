@@ -1,20 +1,4 @@
-<!--<nav class="navbar navbar-default" style=" position: fixed;  z-index: 1000; margin-top: -77px;-->
-<!--" >-->
-<!--<div class="navbar-header">-->
-<!--<button type="button" class="navbar-toggle collapsed" id="menu-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">-->
-<!--<span class="sr-only">Toggle navigation</span>-->
-<!--<span class="icon-bar"></span>-->
-<!--<span class="icon-bar"></span>-->
-<!--</button>-->
-<!--</div>-->
-<!--&lt;!&ndash; Brand and toggle get grouped for better mobile display &ndash;&gt;-->
-<!--<div class="collapse navbar-collapse">-->
-<!--<ul class="nav navbar-nav navbar-right">-->
-<!--<li><a href="#" onclick="signOut();">Sign out</a>-->
-<!--</li>-->
-<!--</ul>-->
-<!--</div>-->
-<!--</nav>-->
+
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="
     margin-top: 77px;
 ">
@@ -33,10 +17,7 @@
                 <a href="/dormancy/"><span class="glyphicon glyphicon-briefcase glyphi" aria-hidden="true"></span>&nbsp;Dormancy</a>
             </li>
             <!--<li>-->
-                <!--<a href="/merchandise/"><span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span> &nbsp; Merchandise </a>-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<a href="/otrview/"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> &nbsp; OTR </a>-->
+                <!--<a href="https://mail.google.com/mail/u/0/?logout&hl=en"><span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span> &nbsp; <img src="https://mail.google.com/mail/u/0/?logout&hl=en" /> </a>-->
             <!--</li>-->
             <!--<li>-->
                 <!--<a href="/configure/"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> &nbsp; Configure </a>-->
@@ -44,20 +25,52 @@
             <!--<li>-->
                 <!--<a href="/invoiceView/"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> &nbsp; Invoice </a>-->
             <!--</li>-->
-
             <!--<li>-->
             <!--<a href="/otr/"><span class="glyphicon glyphicon-retweet glyphi" aria-hidden="true"></span>OTR</a>-->
             <!--</li>-->
-            <!--<li>-->
-                <!--<a href="/logout/" class="navbar-list"><span class="glyphicon glyphicon-off glyphi" aria-hidden="true"></span>Logout</a>-->
-            <!--</li>-->
+            <li>
+                <a href="javascript:void(0)" onclick="signOut()" class="navbar-list"><span class="glyphicon glyphicon-off glyphi" aria-hidden="true"></span>Logout</a>
+            </li>
         </ul>
     </div>
 </div>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-
+<script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 <script>
     function signOut() {
-        gapi.auth.signOut();
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+            window.location="/login/"
+        });
     }
+    function onLoad() {
+        gapi.load('auth2', function() {
+            gapi.auth2.init();
+        });
+    }
+</script>
+<script >
+//    function logoutg() {
+//        var accessToken="436438133634-0qvjo41r5nu9rgjhfeo68ejrpgge5dqn.apps.googleusercontent.com";
+//        $.ajax({
+//            type: 'GET',
+//            url: "https://accounts.google.com/o/oauth2/revoke?token=" + accessToken,
+//            async: false,
+//            contentType: "application/json",
+//            dataType: 'jsonp',
+//            success: function(nullResponse) {
+//                alert(nullResponse);
+//                alert("G")
+//                    window.location="/logout/";
+//            },
+//            error: function(e) {
+//                alert("Something went wrong, Please try again later")
+//                // Handle the error
+//                // You could point users to manually disconnect if unsuccessful
+//                // https://plus.google.com/apps
+//            }
+//        })
+//    }
+    </script>
+<script>
 </script>

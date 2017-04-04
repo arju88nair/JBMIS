@@ -10,9 +10,11 @@
             height: 100%;
         }
         body {
-            background:
-                    -webkit-linear-gradient(rgba(135, 60, 255, 0.4), rgba(135, 60, 255, 0.0) 80%),
-                    -webkit-linear-gradient(-45deg, rgba(120, 155, 255, 0.9) 25%, rgba(255, 160, 65, 0.9) 75%);
+		background: url('../assets/images/bg2.jpg') no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
         }
     </style>
     <script>
@@ -27,8 +29,6 @@
                 'onfailure': onFailure
             });
         }
-
-
         function onSignIn(googleUser) {
             var profile = googleUser.getBasicProfile();
             console.log(profile);
@@ -37,8 +37,6 @@
             console.log('Iailmage URL: ' + profile.getImageUrl());
             console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 //
-
-
             $.ajax({
                 type: "POST",
                 url: "/login_validate",
@@ -51,36 +49,22 @@
                     console.log(data);
                     if (data == 400 || data == "400") {
                         alert("User Not Present");
-
                     }
-
                     else {
-
-                        window.location = "http://localhost:8083/branch/"
+                        window.location = "/branch/"
                     }
-
-
                 },
                 error: function (err) {
                     console.log(err.responseText);
                     if (err.responseText == 400 || err.responseText == "400") {
-
                         alert("User Not Present");
-
                     }
-
                     else {
-
-                        window.location = "http://localhost:8083/branch/"
+                        window.location = "/branch/"
                     }
-
-
                     console.log(err.responseText);
-
                 }
             });
-
-
         }</script>
     <script>
         function signOut() {
@@ -91,10 +75,9 @@
         }
     </script>
 </head>
-
 <body>
 <div class="container login_container">
-    <img src="../assets/images/logo.png" class="img-responsive center-block login_logo">
+    <img src="../assets/images/logo1.png" class="img-responsive center-block login_logo">
     <div class="login_box center-block">
         <div class="login_box_header">
             <div class="login_header_font">
@@ -115,7 +98,6 @@
                     </form>
                 </div>
             </div>
-
             <br>
             <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" data-prompt="select_account" style="margin-left: 40%; margin-top: 13%;"></div>
             <!--<a href="#" onclick="signOut();">Sign out</a>-->
@@ -126,7 +108,6 @@
 <script src="../assets/js/jquery.min.js"></script>
 <script src="../assets/js/bootstrap.min.js"></script>
 <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
-
 <script type="text/javascript">
     $(window).load(function () {
         $('#myModal').modal('show');

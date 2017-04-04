@@ -131,7 +131,7 @@ $.get("/home_head_summary/", function(data){
     // $( "#otrcount" ).html( data_new[0]['OTR']+'/'+data_new[0]['OTR_EXPIRY']);
     //
     $("#otrvalue").removeClass('loader');
-    $( "#otrvalue" ).html( data_new[0]['OTR_ACHIVED']);
+    $( "#otrvalue" ).html( data_new[0]['OTR_ACHIVED']+' %');
 
     // $("#dd").removeClass('loader');
     // $( "#dd" ).html( data_new[0]['DD_CORPORATE']+'/'+data_new[0]['DD_BRANCH']);

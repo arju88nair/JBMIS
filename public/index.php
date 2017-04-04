@@ -763,6 +763,7 @@ $app->get('/home_head_otrvalue/', function (Request $request, Response $response
 
 $app->get('/logout/', function (Request $request, Response $response) {
     unset($_SESSION['user']);
+    unset($_SESSION['branch_id']);
     return $response->withRedirect('/login/');
 });
 
@@ -855,7 +856,7 @@ $app->get('/home_head_summary/', function (Request $request, Response $response)
             round(nvl(sum(renewal_revenue_ly),0)) renewal_revenue_ly,
             round(nvl(sum(renewals),0)) renewal_cnt,
             round(nvl(sum(renewal_ly),0)) renewal_cnt_ly,
-            round(nvl(sum(otr)/sum(otr_expiry)*100,0)) otr_achived,
+            round(nvl(sum(otr)/sum(otr_expiry)*100,0),1) otr_achived,
             nvl(sum(active_users),0) active_users
             from fn_home_page_summary where trunc(tdate)>=trunc(sysdate,'mm'))";
     $result = oci_parse($con, $query);
@@ -982,7 +983,7 @@ $app->get('/branch_head_summary/', function (Request $request, Response $respons
     count(case when trunc(created_at)>=add_months(trunc(sysdate,'mm'),-12) 
     and trunc(created_at)<=add_months(trunc(sysdate),-12) then branch_id end) as last_year_month,
     count(case when trunc(created_at)>=trunc(sysdate,'mm') then branch_id end) as current_month
-    from signups where branch_id=$id
+    from signups where branch_id in ($id)
     group by branch_id";
     $result = oci_parse($con, $query);
     oci_execute($result);
@@ -996,7 +997,7 @@ $app->get('/branch_head_summary/', function (Request $request, Response $respons
 count(case when trunc(created_at)>=add_months(trunc(sysdate,'mm'),-12) 
 and trunc(created_at)<=add_months(trunc(sysdate),-12) then branch_id end) as last_year_month,
 count(case when trunc(created_at)>=trunc(sysdate,'mm') then branch_id end) as current_month
-from renewals where branch_id =$id
+from renewals where branch_id in ($id)
 group by branch_id";
     $result = oci_parse($con, $query);
     oci_execute($result);
@@ -1024,7 +1025,7 @@ on a.branch_id=b.branch_id where a.branch_id =$id";
 
 
     $query = "select r.branch_id,round(avg(mp.bulk_payment),1) bulk_payment from renewals r join member_plans mp on r.member_plan_id=mp.id where
-        trunc(r.created_at)>=add_months(trunc(sysdate,'mm'),-6) and   r.branch_id=$id  group by  r.branch_id";
+        trunc(r.created_at)>=add_months(trunc(sysdate,'mm'),-6) and   r.branch_id in ($id)  group by  r.branch_id";
     $result = oci_parse($con, $query);
     oci_execute($result);
     while ($row = oci_fetch_assoc($result)) {
@@ -1033,7 +1034,7 @@ on a.branch_id=b.branch_id where a.branch_id =$id";
     $data_final['fourth'] = $temp3[0]['BULK_PAYMENT'];
 
     $query = "select branch_id,round(avg(signup_months),1) signup_months from signups where trunc(created_at)>=add_months(trunc(sysdate,'mm'),-6) and 
- branch_id=$id
+ branch_id in ($id)
 group by branch_id";
     $result = oci_parse($con, $query);
     oci_execute($result);
@@ -1129,7 +1130,7 @@ $app->post('/updated_configure/', function (Request $request, Response $response
 $app->get('/branch_chart/', function (Request $request, Response $response) {
     $id=$_SESSION['branch_id'];
     $con = $this->db;
-    $query = "select * from fn_signups_year_compare_branch where branch_id=$id order by dt";
+    $query = "select * from fn_signups_year_compare_branch where branch_id in ($id) order by dt";
     $result = oci_parse($con, $query);
     oci_execute($result);
     while ($row = oci_fetch_assoc($result)) {
@@ -1144,7 +1145,7 @@ $app->get('/branch_chart/', function (Request $request, Response $response) {
 $app->get('/fn_renew_year_compare_branch/', function (Request $request, Response $response) {
     $id=$_SESSION['branch_id'];
     $con = $this->db;
-    $query = "select * from fn_renew_year_compare_branch where branch_id=$id order by dt";
+    $query = "select * from fn_renew_year_compare_branch where branch_id in ($id) order by dt";
     $result = oci_parse($con, $query);
     oci_execute($result);
     while ($row = oci_fetch_assoc($result)) {
@@ -1157,7 +1158,7 @@ $app->get('/fn_renew_year_compare_branch/', function (Request $request, Response
 $app->get('/fn_colc_year_compare_branch/', function (Request $request, Response $response) {
     $id=$_SESSION['branch_id'];
     $con = $this->db;
-    $query = "select * from fn_colc_year_compare_branch where branchid=$id order by dt
+    $query = "select * from fn_colc_year_compare_branch where branchid in ($id) order by dt
 ";
     $result = oci_parse($con, $query);
     oci_execute($result);
@@ -1174,7 +1175,7 @@ $app->get('/fn_colc_year_compare_branch/', function (Request $request, Response 
 $app->get('/dormancy/', function (Request $request, Response $response) {
     $id=$_SESSION['branch_id'];
     $con = $this->db;
-    $query = "select * from fn_dormancy_branch where branch_id=$id";
+    $query = "select * from fn_dormancy_branch where branch_id in ($id)";
     $result = oci_parse($con, $query);
     oci_execute($result);
     while ($row = oci_fetch_assoc($result)) {
@@ -1187,7 +1188,7 @@ $app->get('/dormancy/', function (Request $request, Response $response) {
     $queryDR="select mp.first_name,dr1.expiry_date,nvl(mp.locality,'N/A') locality,nvl(mp.state,'N/A') state, nvl(mp.city,'N/A') city ,nvl(mp.lphone,'N/A') lphone,nvl(mp.mphone,'N/A') mphone from 
                 member_plans mp join dr1_members dr1 on mp.id=dr1.member_plan_id
                 where dr1.status is null and dr1.expiry_date between add_months(trunc(sysdate,'mm'),-1) 
-                and last_day(add_months(trunc(sysdate,'mm'),-1))and dr1.branch_id=$id";
+                and last_day(add_months(trunc(sysdate,'mm'),-1))and dr1.branch_id in ($id)";
     $result = oci_parse($con, $queryDR);
     oci_execute($result);
     while ($row = oci_fetch_assoc($result)) {
@@ -1206,7 +1207,7 @@ $app->post('/drAction/', function (Request $request, Response $response) {
     $queryDR="select mp.first_name,dr1.expiry_date,nvl(mp.locality,'N/A') locality,nvl(mp.state,'N/A') state, nvl(mp.city,'N/A') city ,nvl(mp.lphone,'N/A') lphone,nvl(mp.mphone,'N/A') mphone from 
                 member_plans mp join dr1_members dr1 on mp.id=dr1.member_plan_id
                 where dr1.status is null and dr1.expiry_date between add_months(trunc(sysdate,'mm'),$dr) 
-                and last_day(add_months(trunc(sysdate,'mm'),$dr))and dr1.branch_id=$id";
+                and last_day(add_months(trunc(sysdate,'mm'),$dr))and dr1.branch_id in ($id)";
     $result = oci_parse($con, $queryDR);
     oci_execute($result);
     while ($row = oci_fetch_array($result)) {
@@ -1238,18 +1239,18 @@ $app->any('/closureBranch/', function (Request $request, Response $response) {
         $to = date('d-M-Y');
     $query="select c.membership_no,mp.first_name,nvl(mp.locality,'N/A') locality,nvl(state,'N/A') state,nvl(city,'N/A') city,nvl(lphone,'N/A') lphone,nvl(mphone,'N/A') mphone,trunc(c.created_at) closed,description
             from closures c join member_plans mp on c.member_id=mp.id join closurereasons cr on c.closure_reason_id=cr.id
-            where c.branch_id=$id and trunc(c.created_at) between '$from' and '$to' ";
+            where c.branch_id in ($id) and trunc(c.created_at) between '$from' and '$to' ";
     $result = oci_parse($con, $query);
     oci_execute($result);
     $count=0;
     while ($row = oci_fetch_array($result)) {
         $count++;
-        $data[] = $row;
+        $data1[] = $row;
     }
-
-    $response = $this->view->render($response, 'closure.mustache',['data'=>$data,'count'=>$count,'from'=>$from,'to'=>$to]);
+//	echo json_encode($data);die;;
+    $response = $this->view->render($response, 'closure.mustache',['data'=>$data1,'count'=>$count,'from'=>$from,'to'=>$to]);
     return $response;
-});
+})->add($authenticate);
 
 
 $app->any('/invoiceView/', function (Request $request, Response $response) {
@@ -1271,13 +1272,13 @@ case when is_virtual=1 then 'Virtual' else 'Physical' end as branch_type,contact
                         (select branch_id bid,sum(reading_fee_share) as hire_charges_collected,
                         sum(web_cc_charges) as cc_charges,
                         sum(edc_charges) as edc_charges
-                        from fn_invoice_summary where  invoiced=1 and tdate between '$from' and '$to' group by branch_id) a
+                        from fn_invoice_summary where  invoiced=1 and trunc(tdate) between '$from' and '$to' group by branch_id order by branch_id) a
                         join
                         (select branch_id,nvl(sum(security_refund),0) security_refund,
                         nvl(sum(registration_fee),0) registration_fee,nvl(sum(security_deposit),0) security_deposit,nvl(sum(retention),0) retention,
                         nvl(sum(card_fee),0) card_fee,nvl(sum(book_penalty),0) book_penalty,nvl(sum(hire_charges),0) hire_charges,
                         nvl(sum(misc_income),0) misc_income,nvl(sum(misc_cost),0) misc_cost
-                        from fn_invoice_params where  tdate between '$from' and '$to' group by branch_id) b
+                        from fn_invoice_params where  trunc(tdate) between '$from' and '$to' group by branch_id) b
                         on a.bid=b.branch_id join jb_branches jbb on a.bid=jbb.id
                         left join
                         (select txnbranch,round(nvl(sum(amount),0)-nvl(sum(commission_amount),0)) ibt_payable 
@@ -1288,7 +1289,7 @@ case when is_virtual=1 then 'Virtual' else 'Physical' end as branch_type,contact
                         (select accountbranch,round(nvl(sum(amount),0)-nvl(sum(commission_amount),0)) ibt_receivable 
                         from ibtxns where txnbranch != accountbranch and settlement_type = 1 and trunc(txndate)>='$from' 
                         and trunc(txndate)<='$to' group by accountbranch) d
-                        on a.bid=d.accountbranch";
+                        on a.bid=d.accountbranch order by a.bid";
     $result = oci_parse($con, $query);
     oci_execute($result);
     while ($row = oci_fetch_array($result)) {
@@ -1318,13 +1319,13 @@ $app->get('/pdfGenerate', function (Request $request, Response $response) {
                 (select branch_id bid,sum(reading_fee_share) as hire_charges_collected,
                 sum(web_cc_charges) as cc_charges,
                 sum(edc_charges) as edc_charges
-                from fn_invoice_summary where  invoiced=1 and branch_id=$id and tdate between '$from' and '$to' group by branch_id) a
+                from fn_invoice_summary where  invoiced=1 and branch_id=$id and trunc(tdate) between '$from' and '$to' group by branch_id) a
                 join
                 (select branch_id,nvl(sum(security_refund),0) security_refund,
                 nvl(sum(registration_fee),0) registration_fee,nvl(sum(security_deposit),0) security_deposit,nvl(sum(retention),0) retention,
                 nvl(sum(card_fee),0) card_fee,nvl(sum(book_penalty),0) book_penalty,nvl(sum(hire_charges),0) hire_charges,
                 nvl(sum(misc_income),0) misc_income,nvl(sum(misc_cost),0) misc_cost
-                from fn_invoice_params where branch_id=$id and tdate between '$from' and '$to' group by branch_id) b
+                from fn_invoice_params where invoiced=1 and branch_id=$id and trunc(tdate) between '$from' and '$to' group by branch_id) b
                 on a.bid=b.branch_id join jb_branches jbb on a.bid=jbb.id
                 left join
                 (select txnbranch,round(nvl(sum(amount),0)-nvl(sum(commission_amount),0)) ibt_payable
@@ -1336,7 +1337,7 @@ $app->get('/pdfGenerate', function (Request $request, Response $response) {
                 from ibtxns where txnbranch!=1 and accountbranch=1 and settlement_type = 1 and trunc(txndate)>='$from'
                 and trunc(txndate)<='$to' group by accountbranch) d
                 on a.bid=d.accountbranch";
-
+//	echo $query;die;
     $result = oci_parse($con, $query);
     oci_execute($result);
     while ($row = oci_fetch_array($result)) {
@@ -1379,7 +1380,7 @@ $address=explode(',',$baddress);
         ,'hire_charge'=>$hire_charge,'ibt_Rec'=>$ibt_Rec,'Atotal'=>$Atotal,
         'Btotal'=>$Btotal,'grandTotal'=>$grandTotal,'date'=>$date,'name'=>$bName,'address'=>$address,'$bid'=>$bid]);
     $res = preg_replace("/^(.*\n){4}/", "", $res);
-    file_put_contents('../templates/'.$fileName,$res);
+    file_put_contents('../tmp/'.$fileName,$res);
     return $response->withRedirect('/pdfGenerateNew/'.$fileName.'/');
 
 });
@@ -1387,7 +1388,7 @@ $address=explode(',',$baddress);
 
 $app->any('/pdfGenerateNew/{filename}/', function (Request $request, Response $response,$args) {
 
-    $data = '../templates/'.$args['filename'];
+    $data = '../tmp/'.$args['filename'];
 
     $pdf=new Pdf();
     $options = array(
@@ -1451,7 +1452,7 @@ $app->any('/pdfGenerateNew/{filename}/', function (Request $request, Response $r
 
 
 // On some systems you may have to set the path to the wkhtmltopdf executable
-    $pdf->binary = '/var/www/html/inventory/vendor/bin/wkhtmltopdf-i386';
+    $pdf->binary = '/var/www/jb_inventory/vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64';
     $pdf->send('report.pdf');
     if(file_exists($data))
         unlink($data);
@@ -1485,7 +1486,33 @@ $app->post('/updateIBT/', function (Request $request, Response $response) {
 
 });
 
+$app->post('/updateUserBid/', function (Request $request, Response $response) {
+   $con = $this->db;
+   $data = $request->getParsedBody();
+   $array=$data['array'];
+   $id=$array[0];
+   $bid=$array[2];
 
+   $query="update memp.branch_email_map set branch_id='$bid' where id='$id' ";
+
+   $result = oci_parse($con, $query);
+   oci_execute($result);
+
+});
+
+$app->post('/deleteBID/', function (Request $request, Response $response) {
+   $con = $this->db;
+   $data = $request->getParsedBody();
+   $id=$data['id'];
+
+
+   $query="delete from  memp.branch_email_map  where id='$id' ";
+
+   $result = oci_parse($con, $query);
+   oci_execute($result);
+   return json_encode(array('status'=>200));
+
+});
 
 $app->run();
 
